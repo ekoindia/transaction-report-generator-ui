@@ -21,7 +21,7 @@ A simple UI for generating transaction reports.
 1.  Clone the repository:
 
     ```sh
-    git clone <repo-url>
+    git clone https://github.com/ekoindia/transaction-report-generator-ui.git
     ```
 
 2.  Open `index.html` in your browser to use the UI.
@@ -36,7 +36,6 @@ A simple UI for generating transaction reports.
 
 The main form in this project collects the following information to generate a transaction report:
 
--   **Access Password**: Required for authorization. Must be a 12-character password with a special character (default: `eko@123abcX!`).
 -   **Start Date / End Date**: Select the date and time range for the report.
 -   **Email**: Enter only the local part (before `@`). The domain `@eko.co.in` is automatically appended, ensuring only company emails are used.
 -   **Username**: The name of the user requesting the report.
@@ -62,7 +61,3 @@ The main form in this project collects the following information to generate a t
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](LICENSE)
