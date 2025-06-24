@@ -7,14 +7,24 @@ A simple UI for generating transaction reports.
 -   User-friendly interface for report generation
 -   Email validation and formatting
 -   API integration for report requests
+-   Clean separation of HTML, CSS, and JavaScript files for maintainability
+
+## Project Structure
+
+-   `index.html` — Main HTML file, links to CSS and JS files
+-   `style.css` — All styles for the UI
+-   `main.js` — All JavaScript logic for form handling and API requests
+-   `webhookEndpoints.js` — Maintains all webhook URLs for different admin code selections
 
 ## Getting Started
 
-1. Clone the repository:
+1.  Clone the repository:
+
     ```sh
     git clone <repo-url>
     ```
-2. Open `index.html` in your browser to use the UI.
+
+2.  Open `index.html` in your browser to use the UI.
 
 ## Usage
 
@@ -45,7 +55,8 @@ The main form in this project collects the following information to generate a t
 
 ### Submission
 
--   On submission, the form validates all fields and sends a POST request to the appropriate API endpoint based on the selected transaction type.
+-   On submission, the form validates all fields and sends a POST request to the appropriate API endpoint based on the selected transaction type and admin code selection.
+-   Webhook URLs are managed in `webhookEndpoints.js` for easy updates.
 -   Success and error messages are displayed to the user.
 
 ## Contributing
