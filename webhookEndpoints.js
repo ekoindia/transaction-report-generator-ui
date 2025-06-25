@@ -35,11 +35,11 @@ window.allWebhooks = {
 		"https://automaton8n.eko.in/webhook/Aeps_cashout_Raw_Data_all",
 	credit_card_bill_payment:
 		"https://automaton8n.eko.in/webhook/ccbp_Raw_Data_all",
-	airtel_cms: "https://automaton8n.eko.in/webhook/csm_Raw_Data",
+	airtel_cms: "https://automaton8n.eko.in/webhook/csm_Raw_Data_all",
 	pg: "https://automaton8n.eko.in/webhook/PG_Raw_Data_all",
 	qr: "https://automaton8n.eko.in/webhook/QR_Raw_Data_all",
 	travel_and_insurance:
-		"https://automaton8n.eko.in/webhook/travel_and _insurancedekho_Raw_Data_all",
+		"https://automaton8n.eko.in/webhook/travel_and_insurancedekho_Raw_Data_all",
 	bbps: "https://automaton8n.eko.in/webhook/BBPs_Raw_Data_all",
 	indo_nepal: "https://automaton8n.eko.in/webhook/IN_Raw_Data_all",
 	aeps_withdrawl:
