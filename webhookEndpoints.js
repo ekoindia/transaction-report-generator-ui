@@ -1,9 +1,9 @@
 // webhookEndpoints.js
-// This file exports webhook endpoint maps for 'admin' and 'all' admin code selections.
+// This file defines webhook endpoint maps for 'admin' and 'all' admin code selections for use in the browser.
 
-export const adminWebhooks = {
+window.adminWebhooks = {
 	neobank: "https://automaton8n.eko.in/webhook/Neobank_Raw_Data",
-	dmt: "https://automaton8n.eko.co.in/webhook/DMT_Raw_Data",
+	dmt: "https://automaton8n.eko.in/webhook/DMT_Raw_Data",
 	account_verification:
 		"https://automaton8n.eko.in/webhook/Account_verification_Raw_Data",
 	aeps_fund_settlement: "https://automaton8n.eko.in/webhook/Aeps_fs_Raw_Data",
@@ -19,9 +19,10 @@ export const adminWebhooks = {
 		"https://automaton8n.eko.in/webhook/Travel_and_insurance_dekho_Raw_Data",
 	bbps: "https://automaton8n.eko.in/webhook/BBpS_Raw_Data",
 	indo_nepal: "https://automaton8n.eko.in/webhook/iN_Raw_Data",
+	aeps_withdrawl: "https://automaton8n.eko.in/webhook/Aeps_cashout_Raw_Data",
 };
 
-export const allWebhooks = {
+window.allWebhooks = {
 	neobank: "https://automaton8n.eko.in/webhook/Neo_Raw_Data_all",
 	dmt: "https://automaton8n.eko.in/webhook/DMT_Raw_Data_all",
 	account_verification:
@@ -41,4 +42,6 @@ export const allWebhooks = {
 		"https://automaton8n.eko.in/webhook/travel_and _insurancedekho_Raw_Data_all",
 	bbps: "https://automaton8n.eko.in/webhook/BBPs_Raw_Data_all",
 	indo_nepal: "https://automaton8n.eko.in/webhook/IN_Raw_Data_all",
+	aeps_withdrawl:
+		"https://automaton8n.eko.in/webhook/Aeps_cashout_Raw_Data_all",
 };

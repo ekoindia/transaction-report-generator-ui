@@ -2,23 +2,11 @@
 // All JavaScript logic from the HTML file, except the webhookEndpoints.js import
 
 function getEndpoint(transactionType, isAll) {
-	const mapKey = {
-		indo_nepal: "indo_nepal",
-		neobank: "neobank",
-		dmt: "dmt",
-		account_verification: "account_verification",
-		aeps_fund_settlement: "aeps_fund_settlement",
-		aeps_mini_statement: "aeps_mini_statement",
-		aeps_cashout: "aeps_cashout",
-		credit_card_bill_payment: "credit_card_bill_payment",
-		airtel_cms: "airtel_cms",
-		pg: "pg",
-		qr: "qr",
-		travel_and_insurance: "travel_and_insurance",
-		bbps: "bbps",
-	}[transactionType];
-	if (!mapKey) return null;
-	return isAll ? window.allWebhooks[mapKey] : window.adminWebhooks[mapKey];
+	// Directly use the transactionType as the key
+	if (!transactionType) return null;
+	return isAll
+		? window.allWebhooks[transactionType]
+		: window.adminWebhooks[transactionType];
 }
 
 const transactionTypeOptions = [
