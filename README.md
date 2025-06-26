@@ -52,12 +52,14 @@ The main form in this project collects the following information to generate a t
 ### Mode Selection
 
 #### Raw Data Mode (Default)
+
 -   **Admin Code Selection**: Both "By Admin Code" and "All" options available
 -   **Transaction Types**: Standard transaction types (Indo Nepal, NeoBank, DMT, BBPS, etc.)
 -   **Agent Type**: Available for specific verticals when using "By Admin Code"
 -   **Webhooks**: Uses existing raw data endpoints from `adminWebhooks` and `allWebhooks`
 
 #### Dump Data Mode
+
 -   **Admin Code Selection**: Only "By Admin Code" option (no "All" option)
 -   **Transaction Types**: Specialized dump types:
     -   DmtDump
@@ -97,10 +99,12 @@ The main form in this project collects the following information to generate a t
 The application uses three sets of webhook endpoints defined in `webhookEndpoints.js`:
 
 ### Raw Data Endpoints
+
 -   **`adminWebhooks`**: Used when "By Admin Code" is selected in Raw Data mode
 -   **`allWebhooks`**: Used when "All" is selected in Raw Data mode
 
 ### Dump Data Endpoints
+
 -   **`dumpWebhooks`**: Used exclusively in Dump Data mode (only admin code supported)
 
 Each endpoint corresponds to a specific transaction type and handles the appropriate data processing on the backend.
