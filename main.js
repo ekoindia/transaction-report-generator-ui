@@ -30,8 +30,8 @@ const transactionTypeOptions = [
 ];
 
 const dumpTransactionTypeOptions = [
-	{ label: "Dmt", value: "DmtDump" },
-	{ label: "WalletBalance", value: "WalletBalance" },
+	{ label: "DMT", value: "DmtDump" },
+	{ label: "Wallet Balance", value: "WalletBalance" },
 	{ label: "Neobank", value: "NeobankDump" },
 	{ label: "Wallet", value: "WalletDump" },
 	{ label: "Payout", value: "PayoutDump" },
