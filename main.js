@@ -1,8 +1,13 @@
 // main.js
 // All JavaScript logic from the HTML file, except the webhookEndpoints.js import
 
-function getEndpoint(transactionType, isAll) {
-	// Directly use the transactionType as the key
+function getEndpoint(transactionType, isAll, isDumpMode) {
+	// For dump mode, only use admin webhooks (no 'all' option)
+	if (isDumpMode) {
+		return window.dumpWebhooks[transactionType] || null;
+	}
+
+	// For raw data mode, use existing logic
 	if (!transactionType) return null;
 	return isAll
 		? window.allWebhooks[transactionType]
@@ -22,6 +27,17 @@ const transactionTypeOptions = [
 	{ label: "Airtel CMS", value: "airtel_cms" },
 	{ label: "PG", value: "pg" },
 	{ label: "QR", value: "qr" },
+];
+
+const dumpTransactionTypeOptions = [
+	{ label: "Dmt", value: "DmtDump" },
+	{ label: "WalletBalance", value: "WalletBalance" },
+	{ label: "Neobank", value: "NeobankDump" },
+	{ label: "Wallet", value: "WalletDump" },
+	{ label: "Payout", value: "PayoutDump" },
+	{ label: "Archive", value: "ArchiveDump" },
+	{ label: "QR", value: "QR_Dump" },
+	{ label: "PG", value: "PG_Dump" },
 ];
 
 const verticalOptions = [
@@ -65,11 +81,9 @@ function getCurrentDateTimeLocal() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-	renderOptions(
-		document.getElementById("transaction_type"),
-		transactionTypeOptions,
-		"Select Transaction Type"
-	);
+	// Initialize with raw data mode (default)
+	updateTransactionTypes(false);
+
 	renderOptions(
 		document.getElementById("vertical"),
 		verticalOptions,
@@ -84,11 +98,68 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById("message").style.display = "none";
 });
 
+function updateTransactionTypes(isDumpMode) {
+	const options = isDumpMode
+		? dumpTransactionTypeOptions
+		: transactionTypeOptions;
+	renderOptions(
+		document.getElementById("transaction_type"),
+		options,
+		"Select Transaction Type"
+	);
+}
+
+function updateAdminCodeOptions(isDumpMode) {
+	const allLabel = document.getElementById("admin-all-label");
+
+	if (isDumpMode) {
+		// Hide "All" option for dump mode
+		allLabel.style.display = "none";
+		// Force selection to "By Admin Code"
+		document.querySelector(
+			'input[name="admin_option"][value="code"]'
+		).checked = true;
+		// Enable admin code input
+		const adminInput = document.getElementById("admin_code");
+		adminInput.disabled = false;
+		adminInput.required = true;
+		adminInput.value = "";
+	} else {
+		// Show "All" option for raw data mode
+		allLabel.style.display = "block";
+	}
+}
+
+// Mode selection event listener
+document.querySelectorAll('input[name="mode_option"]').forEach((radio) => {
+	radio.addEventListener("change", function () {
+		const isDumpMode = this.value === "dump";
+
+		// Update transaction types based on mode
+		updateTransactionTypes(isDumpMode);
+
+		// Update admin code options
+		updateAdminCodeOptions(isDumpMode);
+
+		// Reset agent type visibility
+		document.getElementById("agentTypeGroup").style.display = "none";
+		document.getElementById("agent_type").innerHTML = "";
+		document.getElementById("agent_type").required = false;
+
+		// Clear selections
+		document.getElementById("transaction_type").selectedIndex = 0;
+		document.getElementById("vertical").selectedIndex = 0;
+	});
+});
+
 document.getElementById("vertical").addEventListener("change", function () {
 	const vertical = this.value;
+	const isDumpMode =
+		document.querySelector('input[name="mode_option"]:checked').value ===
+		"dump";
 	const showAgent =
 		document.querySelector('input[name="admin_option"]:checked').value ===
-		"code";
+			"code" && !isDumpMode;
 
 	if (agentTypeOptions[vertical] && showAgent) {
 		renderOptions(
@@ -108,13 +179,16 @@ document.getElementById("vertical").addEventListener("change", function () {
 document.querySelectorAll('input[name="admin_option"]').forEach((radio) => {
 	radio.addEventListener("change", function () {
 		const isAll = this.value === "all";
+		const isDumpMode =
+			document.querySelector('input[name="mode_option"]:checked')
+				.value === "dump";
 		const adminInput = document.getElementById("admin_code");
 
 		adminInput.value = isAll ? "ALL" : "";
 		adminInput.disabled = isAll;
 		adminInput.required = !isAll;
 
-		if (isAll) {
+		if (isAll || isDumpMode) {
 			document.getElementById("agentTypeGroup").style.display = "none";
 			document.getElementById("agent_type").innerHTML = "";
 			document.getElementById("agent_type").required = false;
@@ -160,6 +234,9 @@ document
 		const isAll =
 			document.querySelector('input[name="admin_option"]:checked')
 				.value === "all";
+		const isDumpMode =
+			document.querySelector('input[name="mode_option"]:checked')
+				.value === "dump";
 
 		// Get the local part and build the email
 		const emailLocal = document.getElementById("email_local").value.trim();
@@ -180,10 +257,12 @@ document
 			vertical: document.getElementById("vertical").value,
 			agent_type:
 				!isAll &&
+				!isDumpMode &&
 				document.getElementById("agentTypeGroup").style.display ===
 					"block"
 					? document.getElementById("agent_type").value
 					: null,
+			mode: isDumpMode ? "dump" : "raw",
 		};
 
 		// Only allow non-empty local part, and must be a valid local part (no @ allowed)
@@ -195,7 +274,11 @@ document
 		}
 
 		try {
-			const endpoint = getEndpoint(data.transaction_type, isAll);
+			const endpoint = getEndpoint(
+				data.transaction_type,
+				isAll,
+				isDumpMode
+			);
 
 			if (!endpoint) {
 				messageEl.innerHTML =
@@ -221,6 +304,13 @@ document
 				document.getElementById("agentTypeGroup").style.display =
 					"none";
 				document.getElementById("admin_code").disabled = false;
+
+				// Reset to default mode (Raw Data)
+				document.querySelector(
+					'input[name="mode_option"][value="raw"]'
+				).checked = true;
+				updateTransactionTypes(false);
+				updateAdminCodeOptions(false);
 
 				const now = getCurrentDateTimeLocal();
 				document.getElementById("end_date").value = now;

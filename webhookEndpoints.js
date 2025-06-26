@@ -45,3 +45,15 @@ window.allWebhooks = {
 	aeps_withdrawl:
 		"https://automaton8n.eko.in/webhook/Aeps_cashout_Raw_Data_all",
 };
+
+// Dump Data webhooks (only admin code, no 'all' option)
+window.dumpWebhooks = {
+	DmtDump: "https://automaton8n.eko.in/webhook/DmtDump",
+	WalletBalance: "https://automaton8n.eko.in/webhook/WalletBalance",
+	NeobankDump: "https://automaton8n.eko.in/webhook/NeobankDump",
+	WalletDump: "https://automaton8n.eko.in/webhook/WalletDump",
+	PayoutDump: "https://automaton8n.eko.in/webhook/PayoutDump",
+	ArchiveDump: "https://automaton8n.eko.in/webhook/ArchiveDump",
+	QR_Dump: "https://automaton8n.eko.in/webhook/QR_Dump",
+	PG_Dump: "https://automaton8n.eko.in/webhook/PG_Dump",
+};

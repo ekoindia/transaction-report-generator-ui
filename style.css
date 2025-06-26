@@ -230,3 +230,7 @@ button[type="submit"]:hover {
 #agentTypeGroup {
 	display: none;
 }
+
+#admin-all-label {
+	transition: opacity 0.2s, visibility 0.2s;
+}
