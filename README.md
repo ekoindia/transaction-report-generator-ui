@@ -47,7 +47,7 @@ The main form in this project collects the following information to generate a t
 -   **Admin Code**: Enter the specific admin code (required unless 'All' is selected in Raw Data mode).
 -   **Transaction Type**: Select the type of transaction for the report. Available options depend on the selected mode.
 -   **Vertical**: Select the business vertical (EPS, Eloka, Connect).
--   **Agent Type**: (Conditional) Appears for certain verticals and admin code options in Raw Data mode only.
+-   **Agent Type**: (Conditional) Appears for certain verticals and admin code options. In "Raw Data" mode, it appears when "By Admin Code" is selected for specific verticals. In "Dump Data" mode, it appears for "Eloka" and "Connect" verticals.
 
 ### Mode Selection
 
@@ -70,7 +70,7 @@ The main form in this project collects the following information to generate a t
     -   ArchiveDump
     -   QR_Dump
     -   PG_Dump
--   **Agent Type**: Hidden (not applicable for dump data)
+-   **Agent Type**: Shown only when the vertical is "Eloka" or "Connect".
 -   **Webhooks**: Uses dedicated dump data endpoints from `dumpWebhooks`
 
 ### Email Handling

@@ -157,11 +157,17 @@ document.getElementById("vertical").addEventListener("change", function () {
 	const isDumpMode =
 		document.querySelector('input[name="mode_option"]:checked').value ===
 		"dump";
-	const showAgent =
+	const isAdminByCode =
 		document.querySelector('input[name="admin_option"]:checked').value ===
-			"code" && !isDumpMode;
+		"code";
 
-	if (agentTypeOptions[vertical] && showAgent) {
+	// Show agent type for "By Admin Code" in raw mode, or for Eloka/Connect in dump mode
+	const shouldShowAgentType =
+		isAdminByCode &&
+		(!isDumpMode ||
+			(isDumpMode && (vertical === "Eloka" || vertical === "Connect")));
+
+	if (agentTypeOptions[vertical] && shouldShowAgentType) {
 		renderOptions(
 			document.getElementById("agent_type"),
 			agentTypeOptions[vertical],
@@ -179,32 +185,14 @@ document.getElementById("vertical").addEventListener("change", function () {
 document.querySelectorAll('input[name="admin_option"]').forEach((radio) => {
 	radio.addEventListener("change", function () {
 		const isAll = this.value === "all";
-		const isDumpMode =
-			document.querySelector('input[name="mode_option"]:checked')
-				.value === "dump";
 		const adminInput = document.getElementById("admin_code");
 
 		adminInput.value = isAll ? "ALL" : "";
 		adminInput.disabled = isAll;
 		adminInput.required = !isAll;
 
-		if (isAll || isDumpMode) {
-			document.getElementById("agentTypeGroup").style.display = "none";
-			document.getElementById("agent_type").innerHTML = "";
-			document.getElementById("agent_type").required = false;
-		} else {
-			const vertical = document.getElementById("vertical").value;
-			if (agentTypeOptions[vertical]) {
-				renderOptions(
-					document.getElementById("agent_type"),
-					agentTypeOptions[vertical],
-					"Select Agent Type"
-				);
-				document.getElementById("agentTypeGroup").style.display =
-					"block";
-				document.getElementById("agent_type").required = true;
-			}
-		}
+		// Trigger a change on the vertical dropdown to re-evaluate agent type visibility
+		document.getElementById("vertical").dispatchEvent(new Event("change"));
 	});
 });
 
@@ -256,10 +244,8 @@ document
 			transaction_type: document.getElementById("transaction_type").value,
 			vertical: document.getElementById("vertical").value,
 			agent_type:
-				!isAll &&
-				!isDumpMode &&
 				document.getElementById("agentTypeGroup").style.display ===
-					"block"
+				"block"
 					? document.getElementById("agent_type").value
 					: null,
 			mode: isDumpMode ? "dump" : "raw",
