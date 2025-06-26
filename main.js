@@ -27,6 +27,7 @@ const transactionTypeOptions = [
 	{ label: "Airtel CMS", value: "airtel_cms" },
 	{ label: "PG", value: "pg" },
 	{ label: "QR", value: "qr" },
+	{ label: "Travel and Insurance Dekho", value: "travel_and_insurance" },
 ];
 
 const dumpTransactionTypeOptions = [
